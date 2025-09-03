@@ -1,0 +1,50 @@
+
+<%= form_with url: books_path, method: :get, local: true,
+              html: { class: "search-bar d-flex align-items-center" } do |f| %>
+
+  <!-- Category -->
+  <div class="category-field">
+    <%= f.select :category_id,
+          options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+          { include_blank: "All" },
+          class: "form-select" %>
+  </div>
+
+  <!-- Price -->
+  <div class="price-field mx-2">
+    <%= f.select :price_range,
+          options_for_select([["Any",""], ["Under $10","under_10"], ["$10–50","10_50"], ["> $50","50_plus"]], params[:price_range]),
+          {},
+          class: "form-select" %>
+  </div>
+
+  <!-- Condition -->
+  <div class="condition-field">
+    <%= f.select :condition,
+          options_for_select(["Any","New","Like New","Very Good","Good"], params[:condition]),
+          {},
+          class: "form-select" %>
+  </div>
+
+  <!-- Status -->
+  <div class="status-field mx-2">
+    <%= f.select :status,
+          options_for_select(["Any","Available","Reserved"], params[:status]),
+          {},
+          class: "form-select" %>
+  </div>
+
+  <!-- Search Input -->
+  <div class="search-field flex-grow-1">
+    <%= f.text_field :q,
+          value: params[:q],
+          placeholder: "Search by Title, Author, Keyword or ISBN",
+          class: "form-control" %>
+  </div>
+
+  <!-- Button -->
+  <div class="actions ms-2">
+    <%= f.submit "Search", class: "search-btn" %>
+  </div>
+
+<% end %>

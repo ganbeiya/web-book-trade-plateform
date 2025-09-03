@@ -1,0 +1,59 @@
+
+<%# This file shows each book's title, stock, category, price, condition, sales, pending order, and edit/delete link. %>
+
+<div class="container">
+  <div class="selling-header mb-4">
+  <%= link_to "New book", new_book_path, class: "btn btn-dark btn-sm me-2 text-white" %>
+  <%= link_to "Back to All Books", books_path, class: "btn btn-dark btn-sm me-2 text-white" %>
+  </div>
+
+  <div class="book-list">
+    <% @books.each do |book| %>
+      <div class="book-card">
+        <% if book.image.attached? %>
+          <%= image_tag(book.image, alt: book.title) %>
+        <% else %>
+          <%= image_tag("default_book_cover.jpg", alt: "Default cover") %>
+        <% end %>
+
+        <div class="card-content">
+          <h3><%= link_to book.title, book %></h3>
+          <p class="meta-item">
+            <span class="meta-label">Author</span>
+            <span class="meta-value"><%= book.author %></span>
+          </p>
+
+          <p class="meta-item">
+            <span class="meta-label">Price</span>
+            <span class="meta-value"><%= number_to_currency(book.price, precision: 2) %></span>
+          </p>
+
+          <p class="meta-item">
+            <span class="meta-label">Condition</span>
+            <span class="meta-value"><%= book.condition %></span>
+          </p>
+
+          <p class="meta-item">
+            <span class="meta-label">Status</span>
+            <span class="meta-value"><%= book.status.capitalize %></span>
+          </p>
+
+          <p class="meta-item">
+            <span class="meta-label">ISBN</span>
+            <span class="meta-value"><%= book.isbn.presence || 'N/A' %></span>
+          </p>
+
+          <p class="meta-item">
+            <span class="meta-label">Category</span>
+            <span class="meta-value"><%= book.category&.name || 'No category' %></span>
+          </p>
+        </div>
+
+        <div class="card-actions action-btns">
+          <%= link_to 'Edit', edit_book_path(book), class: "action-btn" %>
+          <%= link_to 'Remove', book_path(book), method: :delete, data: { confirm: 'Do you want to delete it?' }, class: "action-btn" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

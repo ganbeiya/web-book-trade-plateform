@@ -1,0 +1,78 @@
+<div class="container mt-5">
+
+  <h1 class="mb-4 text-center"><%= @book.title %></h1>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm mb-4 p-4">
+        <%# Displays book image %>
+        <% if @book.image.attached? %>
+          <div class="text-center mb-3">
+            <strong>Cover Image:</strong><br>
+            <%= image_tag @book.image, class: "img-fluid rounded shadow-sm", style: "max-width: 300px;" %>
+          </div>
+        <% end %>
+
+        <p class="mb-3">
+          <strong>Author:</strong> <%= @book.author %><br>
+          <strong>Price:</strong> $<%= number_with_precision(@book.price, precision: 2) %><br>
+          <strong>Condition:</strong> <%= @book.condition %><br>
+          <strong>Status:</strong> <%= @book.status.capitalize %><br>
+          <strong>ISBN:</strong> <%= @book.isbn.presence || 'N/A' %><br>
+          <strong>Category:</strong> <%= @book.category&.name || 'No category' %><br>
+        </p>
+
+        <% if @book.user_id == current_user.id %>
+          <%= link_to "Edit", edit_book_path(@book), class: "btn btn-warning w-100 mb-2" %>
+          <%= button_to "Delete", @book, method: :delete,
+              data: { turbo_confirm: "Delete this book?" },
+              class: "btn btn-danger w-100 mb-3" %>
+        <% end %>
+
+        <% if user_signed_in? && current_user != @book.user %>
+          <%= link_to "Add to Wish List", new_wishlist_path(book_id: @book.id), class: "btn btn-outline-primary w-100 mb-2" %>
+          <%= link_to "Message Seller", new_message_path(book_id: @book.id, receiver_id: @book.user.id), class: "btn btn-primary w-100 mb-2" %>
+        <% end %>
+        <% if user_signed_in? && current_user != @book.user && @book.status.downcase == "available" %>
+          <%= button_to "Request to Buy", transactions_path(book_id: @book.id),
+              method: :post,
+              data: { turbo_confirm: "Send request?" },
+              class: "btn btn-success w-100" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-body text-center">
+      <h4 class="card-title">Seller Information</h4>
+      <p class="card-text"><strong>Email:</strong> <%= @book.user.email %></p>
+      <p class="card-text">
+        <strong>Rating:</strong>
+        ⭐ <%= @book.user.received_reviews.average(:rating)&.round(1) || "N/A" %>
+        (<%= @book.user.received_reviews.count %> reviews)
+      </p>
+    </div>
+  </div>
+
+  <%# Displays list of all reviews %>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <% if @book.user.received_reviews.any? %>
+        <h4 class="mb-3">Reviews for this seller</h4>
+        <% @book.user.received_reviews.each do |review| %>
+          <div class="card mb-2 shadow-sm">
+            <div class="card-body">
+              <p><strong><%= review.reviewer.email %></strong> (⭐ <%= review.rating %>/5)</p>
+              <p><%= review.content %></p>
+              <p><small class="text-muted"><%= time_ago_in_words(review.created_at) %> ago</small></p>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-center">This seller has no reviews yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+</div>

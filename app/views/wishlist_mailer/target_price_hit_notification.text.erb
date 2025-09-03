@@ -1,0 +1,10 @@
+Hello, <%= @user.email %>,
+
+The book *<%= @book.title %>* in your wishlist
+was originally priced at $<%= @original_price %>,
+and is now priced at $<%= @current_price %>,
+which is at or below your target price $<%= @target_price %>!
+
+View it now: <%= book_url(@book) %>
+
+— From the Book2Book Team-

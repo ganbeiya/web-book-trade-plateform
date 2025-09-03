@@ -1,0 +1,27 @@
+
+.wishlist-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+
+  .wishlist-item {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+  
+
+  .wishlist-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .wishlist-image {
+    width: 100%;       
+    object-fit: cover;            
+    object-position: center;   
+  }
+  

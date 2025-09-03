@@ -1,0 +1,11 @@
+<div class="container mt-6 text-center">
+  <h1 class="mb-4">Add Wishlist Item</h1>
+
+  <div class="d-flex justify-content-center">
+    <%= render 'form', wishlist: @wishlist %>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to "← Back to Wishlist", wishlists_path, class: "btn btn-outline-secondary" %>
+  </div>
+</div>

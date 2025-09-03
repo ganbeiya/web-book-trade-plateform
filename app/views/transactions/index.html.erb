@@ -1,0 +1,112 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Transaction History</h1>
+
+  <%# Role Filter %>
+  <div class="mb-3">
+    <strong>Role:</strong>
+    <% ["all", "buyer", "seller"].each do |role| %>
+      <%= link_to role.capitalize,
+                  transactions_path(role: role, status: params[:status]),
+                  class: "btn btn-sm me-2 #{params[:role] == role || (params[:role].blank? && role == 'all') ? 'btn-primary' : 'btn-outline-secondary'}" %>
+    <% end %>
+  </div>
+
+  <%# Status Filter %>
+  <div class="mb-4">
+    <strong>Status:</strong>
+    <% status_options = %w[requested confirmed rejected completed] %>
+    <% selected_statuses = Array(params[:status]) %>
+
+    <% status_options.each do |s| %>
+      <% toggled = selected_statuses.include?(s) %>
+      <% new_statuses = toggled ? selected_statuses - [s] : selected_statuses + [s] %>
+      <%= link_to s.capitalize,
+                  transactions_path(role: params[:role], status: new_statuses),
+                  class: "btn btn-sm me-2 #{toggled ? 'btn-success' : 'btn-outline-secondary'}" %>
+    <% end %>
+  </div>
+
+  <% if @transactions.any? %>
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>Price</th>
+          <th>Role</th>
+          <th>Partner</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Review</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @transactions.each do |t| %>
+          <% book = t.book %>
+          <% partner = t.buyer == current_user ? t.seller : t.buyer %>
+          <tr class="align-middle">
+            <%# Book image and info %>
+            <td>
+              <div class="d-flex align-items-center">
+                <div style="width: 50px; height: 70px;" class="me-3">
+                  <% if book.image.attached? %>
+                    <%= image_tag book.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
+                  <% else %>
+                    <%= image_tag "default_book_cover.jpg", style: "width: 100%; height: 100%; object-fit: cover;" %>
+                  <% end %>
+                </div>
+                <div>
+                  <strong><%= link_to book.title, book_path(book) %></strong><br>
+                  <small class="text-muted">ISBN: <%= book.isbn.presence || "N/A" %></small>
+                </div>
+              </div>
+            </td>
+
+            <%# Price %>
+            <td>$<%= number_with_precision(book.price, precision: 2) %></td>
+
+            <%# Role %>
+            <td><%= t.buyer == current_user ? "Buyer" : "Seller" %></td>
+
+            <%# Partner info: username + email %>
+            <td>
+              <%= partner.username %><br>
+              <small class="text-muted"><%= partner.email %></small>
+            </td>
+
+            <%# Status %>
+            <td>
+              <span class="badge bg-<%= status_color(t.status) %>"><%= t.status.capitalize %></span>
+            </td>
+
+            <%# Date & Time %>
+            <td><%= t.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+
+            <%# Review %>
+            <td>
+              <% if t.user_review_for(current_user) %>
+                <span class="text-muted small">Reviewed</span>
+              <% elsif t.status == "completed" %>
+                <%= link_to "Leave Review", new_user_review_path(book_transaction_id: t.id), class: "btn btn-sm btn-outline-primary" %>
+              <% else %>
+                <span class="text-muted small">N/A</span>
+              <% end %>
+            </td>
+
+            <%# Complete button %>
+            <td>
+              <% if t.seller == current_user && t.status == "confirmed" %>
+                <%= button_to "Complete", complete_transaction_path(t),
+                      method: :patch,
+                      class: "btn btn-sm btn-success",
+                      data: { turbo_confirm: "Mark this transaction as completed?" } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-info">No transactions found.</div>
+  <% end %>
+</div>

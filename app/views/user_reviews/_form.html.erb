@@ -1,0 +1,39 @@
+<%# Renders a form for creating or editing a user review %>
+<%= form_with model: user_review, local: true do |form| %>
+
+  <%# Display validation errors if any exist %>
+  <% if user_review.errors.any? %>
+    <div id="error_explanation">
+      <h4><%= pluralize(user_review.errors.count, "error") %> prevented this review from being saved:</h4>
+      <ul>
+        <% user_review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# Hidden field to store the ID of the user being reviewed %>
+  <%= form.hidden_field :reviewee_id %>
+
+  <%# Hidden field to store the ID of the associated transaction %>
+  <%= form.hidden_field :book_transaction_id %>
+
+  <%# Rating selection (1–5) %>
+  <div class="field">
+    <%= form.label :rating %><br>
+    <%= form.select :rating, options_for_select(1..5), prompt: "Select a rating" %>
+  </div>
+
+  <%# Optional comment input field %>
+  <div class="field">
+    <%= form.label :content, "Comment (optional)" %><br>
+    <%= form.text_area :content, rows: 5 %>
+  </div>
+
+  <%# Submit button for the review form %>
+  <div class="actions">
+    <%= form.submit "Submit Review" %>
+  </div>
+
+<% end %>

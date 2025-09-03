@@ -1,0 +1,24 @@
+<%# Created 7/18/2025 by Yiwen Fan - Added log in state at top %>
+<%# Edited 7/19/2025 by Yiwen Fan - Added wishlist at top %>
+<%# Edited 7/19/2025 by Zhidong Yang - Added navbar partil at top %>
+<%# Edited 7/20/2025 by Yiwen Fan - Deleted redundant information that already in the navigation bar %>
+
+<!DOCTYPE html>
+<%# Created 7/18/2025 by Yiwen Fan %>
+<html>
+  <head>
+    <title>Book2Book</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render 'layouts/navbar' %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
+  </body>
+</html>

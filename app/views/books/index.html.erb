@@ -1,0 +1,46 @@
+<%= render 'books/search_form' %>
+
+<div class="book-list">
+  <% @books.each do |book| %>
+    <div class="book-card">
+      <%# Display book image. If no submission, set by default image %>
+      <% if book.image.attached? %>
+        <%= image_tag(url_for(book.image), alt: book.title) %>
+      <% else %>
+        <%= image_tag("default_book_cover.jpg", alt: "Default cover") %>
+      <% end %>
+
+      <div class="card-content">
+        <h3><%= link_to book.title, book %></h3>
+        <p class="meta-item">
+          <span class="meta-label">Author</span>
+          <span class="meta-value"><%= book.author %></span>
+        </p>
+
+        <p class="meta-item">
+          <span class="meta-label">Price</span>
+          <span class="meta-value"><%= number_to_currency(book.price, precision: 2) %></span>
+        </p>
+
+        <p class="meta-item">
+          <span class="meta-label">Condition</span>
+          <span class="meta-value"><%= book.condition %></span>
+        </p>
+
+        <p class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-value"><%= book.status.capitalize %></span>
+        </p>
+
+        <p class="meta-item">
+          <span class="meta-label">Category</span>
+          <span class="meta-value"><%= book.category&.name || 'No category' %></span>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="pagination-wrapper">
+  <%= paginate @books %>
+</div>

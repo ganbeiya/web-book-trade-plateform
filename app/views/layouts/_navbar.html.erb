@@ -1,0 +1,71 @@
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="container-fluid">
+    <%# Logo %>
+    <%= link_to image_tag('logo.png', height: 40), root_path, class: "navbar-brand" %>
+
+    <%# right side menu %>
+    <ul class="navbar-nav ms-auto align-items-center">
+      <%# Books %>
+      <li class="nav-item">
+        <%= link_to "Books", books_path, class: "nav-link" %>
+      </li>
+
+      <%# Wish List %>
+      <li class="nav-item">
+          <%= link_to "Wish List", wishlists_path, class: "nav-link" %>
+      </li>
+
+      <%# Selling List %>
+      <li class="nav-item">
+        <%= link_to "Selling List", selling_path, class: "nav-link" %>
+      </li>
+
+      <%# Inbox %>
+      <li class="nav-item">
+       <%= link_to "Inbox", messages_path, class: "nav-link" %>
+      </li>
+
+      <%# Transaction Dropdown %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          Transactions
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Received Requests", received_requests_transactions_path, class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Sent Requests", sent_requests_transactions_path, class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "History", transactions_path, class: "dropdown-item" %>
+          </li>
+        </ul>
+      </li>
+
+      <%# Edit Account %>
+      <% if user_signed_in? %>
+        <%# email buttion，jump to edit account %>
+        <%= link_to (current_user.username.presence || current_user.email),
+            account_path,
+            class: "nav-link" %>
+        <%# Log out button %>
+        <li class="nav-item">
+          <%= button_to "Log Out",
+                        destroy_user_session_path,
+                        method: :delete,
+                        form: { class: "d-inline" },
+                        class: "nav-link" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "Log In", new_user_session_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

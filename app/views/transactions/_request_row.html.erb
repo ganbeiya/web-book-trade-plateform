@@ -1,0 +1,54 @@
+<%# Partial: Single request row (used in sent and received requests) %>
+
+<div class="d-flex align-items-center justify-content-between mb-2 pe-3">
+  <div class="flex-grow-1 ps-3">
+
+    <%# Timestamp %>
+    <div class="small text-muted mb-1">
+      <%= t.created_at.strftime("%Y-%m-%d %H:%M") %>
+    </div>
+
+    <%# User Info (other party) %>
+    <% user = role == "buyer" ? t.seller : t.buyer %>
+    <div>
+      <i class="bi bi-person-circle"></i>
+      <strong><%= user.email %></strong>
+      <% if user.respond_to?(:average_rating) && user.average_rating %>
+        <span class="ms-2 text-warning"><i class="bi bi-star-fill"></i> <%= user.average_rating.round(1) %></span>
+      <% end %>
+      <% if user.respond_to?(:transactions_count) %>
+        <span class="ms-2 text-muted small">(Deals: <%= user.transactions_count %>)</span>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Buttons: Status + Message %>
+  <div class="d-flex gap-2">
+    <% if t.status == "requested" && role == "seller" %>
+      <%= button_to "Accept", accept_transaction_path(t),
+            method: :patch,
+            class: "btn btn-success btn-sm",
+            data: { turbo_confirm: "Accept this request?" } %>
+    <% else %>
+      <% status_text = {
+          "confirmed" => ["Confirmed", "success"],
+          "rejected" => ["Rejected", "secondary"],
+          "completed" => ["Completed", "primary"],
+          "requested" => ["Pending", "warning"]
+        }[t.status] || ["Pending", "warning"] %>
+      <button class="btn btn-<%= status_text[1] %> btn-sm" disabled><%= status_text[0] %></button>
+    <% end %>
+
+    <%= link_to "Message", new_message_path(recipient_id: user.id), class: "btn btn-outline-primary btn-sm" %>
+  </div>
+</div>
+
+<%# Optional message %>
+<% if t.respond_to?(:message) && t.message.present? %>
+  <div class="ps-4 small text-muted fst-italic">
+    <i class="bi bi-chat-left-text"></i>
+    "<%= t.message %>"
+  </div>
+<% end %>
+
+<hr class="my-2">

@@ -1,0 +1,8 @@
+<!-- app/views/layouts/_flash.html.erb -->
+<div id="flash">
+  <% flash.each do |type, msg| %>
+    <div class="alert alert-<%= type == "notice" ? "success" : "danger" %>">
+      <%= msg %>
+    </div>
+  <% end %>
+</div>

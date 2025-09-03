@@ -1,0 +1,26 @@
+
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card p-4 shadow" style="width: 100%; max-width: 600px;">
+    <%= form_with model: wishlist do |form| %>
+      <div class="mb-3">
+        <%= form.label :book_id, "Book", class: "form-label" %>
+        <%= form.collection_select :book_id, Book.all, :id, :title, { prompt: "Select a book" }, class: "form-select" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :target_price, nil, class: "form-label" %>
+        <%= form.number_field :target_price, step: 0.01, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :note, nil, class: "form-label" %>
+        <%= form.text_field :note, class: "form-control" %>
+      </div>
+
+      <div class="d-grid">
+        <%= form.submit "Create Wishlist", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

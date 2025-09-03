@@ -1,0 +1,28 @@
+
+.selling-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem 1.5rem;
+}
+
+.action-btns {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  background-color: #e0e0e0;
+  color: #222 !important;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color .2s, color .2s;
+}
+
+.action-btn:hover {
+  background-color: #ccc;
+  color: #000 !important;
+}

@@ -1,0 +1,52 @@
+<div class="wishlist-container">
+<h1 class="mb-4">My Wishlist</h1>
+
+
+<% if @wishlists.any? %>
+  <div class="row">
+    <% @wishlists.each do |w| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100 ">
+          <% if w.book.image.attached? %>
+           <%= image_tag w.book.image,
+              class: "card-img-top wishlist-image",
+              alt: w.book.title,
+              style: "width: 100%; object-fit: contain;" %>
+          <% else %>
+            <%= image_tag "default_book_cover.jpg",
+              class: "card-img-top wishlist-image",
+              alt: "No cover image",
+              style: "width: 100%; object-fit: contain;" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to w.book.title, book_path(w.book) %></h5>
+            <p class="card-text mb-1"><strong>Author:</strong> <%= w.book.author %></p>
+            <p class="card-text mb-1"><strong>ISBN:</strong> <%= w.book.isbn.presence || "N/A" %></p>
+            <p class="card-text mb-1"><strong>Status:</strong> <%= w.book.status.humanize %></p>
+            <p class="card-text mb-1"><strong>Current Price:</strong> <%= number_to_currency(w.book.price) %></p>
+            <p class="card-text mb-1"><strong>Your Target:</strong> <%= number_to_currency(w.target_price) %></p>
+            <p class="card-text"><strong>Note:</strong> <%= w.note %></p>
+            <p class="card-text text-muted small">
+
+              <%# pluralize helper set singular or plural form for user %>
+              <%= pluralize(w.book.wishlists.count, "user") %> added this book to wishlist.
+            </p>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between">
+            <%= link_to "Edit", edit_wishlist_path(w), class: "btn btn-sm btn-outline-secondary" %>
+            <%= button_to "Delete", wishlist_path(w), method: :delete,
+                data: { confirm: "Are you sure?" }, form: { data: { turbo: false } },
+                class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <%# basic blue alert pattern from bootstrap %>
+  <div class="alert alert-info">You have no wishlist items yet.</div>
+<% end %>
+
+</div>
+

@@ -1,0 +1,11 @@
+<p>Hello, <%= @user.email %>,</p>
+<p>
+  The book <em><%= @book.title %></em> in your wishlist was originally priced at <strong>$<%= @original_price %></strong>, and is now priced at <strong>$<%= @current_price %></strong>, which is at or below your target price <strong>$<%= @target_price %></strong>! 
+</p>
+
+<p>
+  <%= link_to 'View it now', book_url(@book) %>
+</p>
+
+<hr>
+<p>— From the Book2Book Team</p>

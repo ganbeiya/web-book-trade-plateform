@@ -1,0 +1,38 @@
+<%# The html code with Bootstrap 5 design a form to send messages to the receiver; The form is auto prefilled by new method in controller part %>
+<%# Main Content: Book title, Reciever_id, Empty box to write down message and send button  %>
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">✉️ Send a Message</h4>
+    </div>
+    <div class="card-body">
+
+    <% book = Book.find_by(id: @message.book_id) %>
+    <% receiver = User.find_by(id: @message.receiver_id) %>
+    <% if book && receiver %>
+      <div class="alert alert-light border mb-4">
+        📚 <strong>Book:</strong> <%= link_to book.title, book_path(book), class: "text-decoration-none" %><br>
+        👤 <strong>To:</strong> <%= receiver.email %>
+      </div>
+    <% end %>
+
+      <%= form_with(model: @message, url: messages_path, local: true) do |form| %>
+        <%= form.hidden_field :receiver_id %>
+        <%= form.hidden_field :book_id %>
+        <% if params[:reply_to_id].present? %>
+          <%= hidden_field_tag :reply_to_id, params[:reply_to_id] %>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.label :content, "Your Message", class: "form-label" %>
+          <%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Write your message here..." %>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <%= form.submit "Send", class: "btn btn-success px-4" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

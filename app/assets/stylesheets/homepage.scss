@@ -1,0 +1,125 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@300;400;700&display=swap");
+
+// whole background & font
+body {
+    background-color: #ffffff;
+    font-family: "Lora", serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+// navigator bar
+nav.navbar.navbar-expand.bg-dark {
+  background-color: #000000 !important;
+}
+
+nav.navbar.navbar-expand.navbar-dark .navbar-brand,
+nav.navbar.navbar-expand.navbar-dark .nav-link,
+nav.navbar.navbar-expand.navbar-dark .btn-outline-light {
+  color: #ffffff !important;
+}
+
+.navbar.navbar-expand.navbar-dark.bg-dark {
+  // button
+  .nav-link {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    margin-right: 0.5rem;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    color: #ffffff !important;
+    transition: background-color 0.2s, color 0.2s;
+    
+    &:hover,
+    &.active {
+      background-color: #ffffff;
+      color: #000000 !important;
+      text-decoration: none;
+    }
+  }
+
+  // dropdown menu and button
+  .dropdown-menu {
+    background-color: #000000 !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 4px;
+    padding: 0.5rem 0;
+  }
+
+  .dropdown-item {
+    color: #ffffff !important;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover,
+    &:focus {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      text-decoration: none;
+    }
+  }
+}
+
+// book cards layout
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+}
+
+// single card
+.book-card {
+    background-color: #ffffff;
+    padding: 1rem 1rem 0rem;
+    border: 1px solid #F3F4F6;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: #9CA3AF;
+}
+.book-card img {
+    width: 100%;
+    object-fit: cover;            
+    object-position: center; 
+}
+
+.book-card {
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .meta-label {
+    background-color: #000;
+    color: #fff;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  
+  .meta-value {
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    flex-grow: 1; 
+  }
+}
+
+// homepage margin
+.book-list {
+  margin: 2rem 0;
+}

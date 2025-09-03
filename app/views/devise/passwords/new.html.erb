@@ -1,0 +1,22 @@
+<%# Created 7/22/2025 by Zhidong Yang - implement the forgot password %>
+<h2>Forgot Password</h2>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field mb-3">
+    <%= f.label :email, "email", class: "form-label" %><br />
+    <%= f.email_field :email,
+          autofocus: true,
+          autocomplete: "email",
+          class: "form-control",
+          placeholder: "Please enter the email:" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "send the reset password email",
+          class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

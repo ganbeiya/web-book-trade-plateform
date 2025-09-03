@@ -1,0 +1,52 @@
+<div class="container">
+  <h1 class="mb-4">My Account</h1>
+
+  <!-- accout page -->
+  <div class="card">
+    <div class="card-header">
+      Account Information
+    </div>
+    <div class="card-body">
+      <!-- user name -->
+      <p class="mb-2">
+        <strong>Username:</strong>
+        <%= current_user.username.presence || "Not Set" %>
+      </p>
+
+      <!-- Registration Time -->
+      <p class="registration">
+        <strong>Registration Time:</strong>
+        <%= current_user.created_at.strftime("%Y-%m-%d %H:%M") %>
+      </p>
+
+      <!-- email -->
+      <p class="email">
+        <strong>Email:</strong>
+        <%= current_user.email %>
+      </p>
+
+      <!-- Account Introduction -->
+      <p class="accunt Intro">
+        <strong>Account Introduction:</strong><br>
+        <%= current_user.introduction.presence || "(This person is too lazy to fill in the self-introduction)" %>
+      </p>
+    </div>
+  </div>
+
+  <!-- button -->
+  <div class="button">
+    <%= link_to "Editing the Information",
+                edit_account_path,
+                class: "btn btn-primary" %>
+
+    <%= link_to "Reset Password",
+                edit_user_registration_path,
+                class: "btn btn-warning" %>
+
+    <%= button_to "Delete Account",
+                user_registration_path,
+                method: :delete,
+                data: { confirm: "Are you sure you want to delete that account? This action cannot be undone." },
+                class: "btn btn-danger" %>
+  </div>
+</div>
